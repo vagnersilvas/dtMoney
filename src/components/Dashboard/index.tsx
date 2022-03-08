@@ -1,10 +1,10 @@
+import { Summary } from "../Summary";
 import { Container } from "./style";
 
 export function Dashboard() {
   return (
-    <>
-      <Container>
-      </Container>
-    </>
+    <Container>
+      <Summary/>
+    </Container>
   );
 }
