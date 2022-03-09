@@ -3,7 +3,7 @@ import outcomeImg from '../../assets/outComes.svg';
 import totalImg from '../../assets/total.svg';
 
 
-import { Container } from "./style";
+import { Container } from "./styles";
 
 export function Summary() {
   return (
