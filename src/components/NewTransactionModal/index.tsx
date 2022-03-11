@@ -1,6 +1,8 @@
 import Modal from "react-modal";
-import { Container } from "./styles";
+import { Container, ContainerButtonTransaction } from "./styles";
 import buttonClose from '../../assets/buttonClose.svg'
+import incomeImg from '../../assets/incomes.svg';
+import outcomeImg from '../../assets/outComes.svg';
 interface NewTransactionModalProps {
     isOpen: boolean;
     onRequestClose: () => void;
@@ -13,12 +15,12 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
-            <button 
-            type="button" 
-            onClick={onRequestClose}
-            className="react-modal-close"
+            <button
+                type="button"
+                onClick={onRequestClose}
+                className="react-modal-close"
             >
-                <img src={buttonClose} alt="Fechar modal"/>
+                <img src={buttonClose} alt="Fechar modal" />
             </button>
 
             <Container>
@@ -32,6 +34,23 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
                     type="number"
                     placeholder="Valor"
                 />
+                <ContainerButtonTransaction>
+                    <button
+                        type="button"
+                        className="button-transaction income">
+                        <img src={incomeImg}
+                            alt="Entrada" />
+                        <span>Entrada</span>
+                    </button>
+                    <button
+                        type="button"
+                        className="button-transaction outcome">
+                        <img
+                            src={outcomeImg}
+                            alt="Saida" />
+                        <span>Saída</span>
+                    </button>
+                </ContainerButtonTransaction>
                 <input
                     type="text"
                     placeholder="Categoria" />
