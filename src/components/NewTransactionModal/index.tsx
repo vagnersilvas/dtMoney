@@ -1,13 +1,17 @@
 import Modal from "react-modal";
-import { Container, ContainerButtonTransaction } from "./styles";
+import { Container, ContainerButtonTransaction, RadioBox } from "./styles";
 import buttonClose from '../../assets/buttonClose.svg'
 import incomeImg from '../../assets/incomes.svg';
 import outcomeImg from '../../assets/outComes.svg';
+import { useState } from "react";
 interface NewTransactionModalProps {
     isOpen: boolean;
     onRequestClose: () => void;
 }
 export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+
+    const [type, setType] = useState('deposit');
+
     return (
         <Modal
             isOpen={isOpen}
@@ -35,21 +39,27 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
                     placeholder="Valor"
                 />
                 <ContainerButtonTransaction>
-                    <button
+                    <RadioBox
                         type="button"
-                        className="button-transaction income">
+                        className="button-transaction income"
+                        onClick={() => setType('deposit')}
+                        isActive={type === 'deposit'}
+                    >
                         <img src={incomeImg}
                             alt="Entrada" />
                         <span>Entrada</span>
-                    </button>
-                    <button
+                    </RadioBox>
+                    <RadioBox
                         type="button"
-                        className="button-transaction outcome">
+                        className="button-transaction outcome"
+                        onClick={() => setType('withdraw')}
+                        isActive={ type === 'withdraw'}
+                        >
                         <img
                             src={outcomeImg}
                             alt="Saida" />
                         <span>Saída</span>
-                    </button>
+                    </RadioBox>
                 </ContainerButtonTransaction>
                 <input
                     type="text"
