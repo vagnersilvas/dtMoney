@@ -26,6 +26,14 @@ createServer({
           type: 'withdraw',
           category: 'Compras',
           createdAt: '02-01-2022 14:30:00'
+        },
+        {
+          id: 3,
+          title: 'Mercado',
+          amount:300,
+          type: 'withdraw',
+          category: 'Compras',
+          createdAt: '02-01-2022 14:30:00'
         }
       ]
     })
