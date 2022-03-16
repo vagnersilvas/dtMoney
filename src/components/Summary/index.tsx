@@ -1,29 +1,33 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext} from 'react';
+import { useTransaction } from '../../hooks/useTransactions';
+
 import incomeImg from '../../assets/incomes.svg';
 import outcomeImg from '../../assets/outComes.svg';
 import totalImg from '../../assets/total.svg';
-import { TransactionContext } from '../../TransactionsContext';
-
 
 import { Container } from "./styles";
 
 export function Summary() {
-  const { transactions } = useContext(TransactionContext)
+  const { transactions } = useTransaction();
 
-  const [entries, setEntries] = useState(0)
-  const [expenses, setExpense] = useState(0)
-  const [total, setTotal] = useState(0)
+  const summary = transactions.reduce((acc, transaction) => {
+    if (transaction.type === 'deposit') {
+      acc.deposits += transaction.amount
+      acc.total += transaction.amount
+    } else {
+      acc.withdraws += transaction.amount
+      acc.total -= transaction.amount
+    }
 
-  function typeAmount(arg: string) {
-    const total = transactions
-      .filter(transaction => transaction.type === arg)
-      .reduce((acc, transaction) => {
-        return acc + transaction.amount
-      }, 0)
-    return total
-  }
+    return acc
+  }, {
+    deposits: 0,
+    withdraws: 0,
+    total: 0,
+  })
 
-  function amountFromCurrencyBRL(amount: number) {
+
+  function formatAmountForCurrencyBRL(amount: number) {
     return new Intl.NumberFormat('pt-BR',
       {
         style: 'currency',
@@ -31,16 +35,6 @@ export function Summary() {
       }
     ).format(amount)
   }
-
-  useEffect(() => {
-    setExpense(typeAmount('withdraw'))
-    setEntries(typeAmount('deposit'))
-
-  }, [transactions])
-
-  useEffect(() => {
-    setTotal(entries - expenses)
-  }, [entries, expenses])
 
   return (
     <>
@@ -51,7 +45,7 @@ export function Summary() {
             <img src={incomeImg} alt="Entradas" />
           </header>
           <strong>
-            {amountFromCurrencyBRL(entries)}
+            {formatAmountForCurrencyBRL(summary.deposits)}
           </strong>
         </div>
         <div>
@@ -60,7 +54,7 @@ export function Summary() {
             <img src={outcomeImg} alt="Saídas" />
           </header>
           <strong>
-            -{amountFromCurrencyBRL(expenses)}
+            -{formatAmountForCurrencyBRL(summary.withdraws)}
           </strong>
         </div>
         <div className="highlight-background">
@@ -69,7 +63,7 @@ export function Summary() {
             <img src={totalImg} alt="Total" />
           </header>
           <strong>
-            {amountFromCurrencyBRL(total)}
+            {formatAmountForCurrencyBRL(summary.total)}
           </strong>
         </div>
       </Container>
